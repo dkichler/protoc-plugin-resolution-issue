@@ -12,6 +12,6 @@ Observe the dependency
 `io/envoyproxy/protoc-gen-validate/protoc-gen-validate/0.6.1/protoc-gen-validate-0.6.1-osx-x86_64.exe`
 in the resulting report.
 
-To reproduce the resolution issue, checkout branch `resolution-broken` and run the same command as above.
+To reproduce the resolution issue, checkout tag `resolution-broken` (which is on sbt 1.5.0) and run the same command as above.
 
 Observe failure to resolve the same dependency, using an incorrect extension of `.protoc-plugin`
