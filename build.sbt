@@ -11,16 +11,17 @@ lazy val root = (project in file(".")).
     )),
     name := "scalatest-example",
     Compile / PB.targets := Seq(
-      scalapb.gen() -> (Compile / sourceManaged).value / "scalapb"
+      scalapb.gen(FlatPackage) -> (Compile / sourceManaged).value / "scalapb",
+      PB.gens.java -> (Compile / sourceManaged).value / "java"
     ),
     Compile / PB.targets ++= Seq(
       Target(
         scalapb.validate.gen(FlatPackage),
-        (Compile / sourceManaged).value
+        (Compile / sourceManaged).value / "scalapb"
       ),
       Target(
         PB.gens.plugin("validate"),
-        (Compile / sourceManaged).value,
+        (Compile / sourceManaged).value / "java",
         Seq("lang=java")
       )
     ),
@@ -36,6 +37,3 @@ lazy val root = (project in file(".")).
 
 lazy val anotherMod = (project in file("another-module"))
   .dependsOn(root % "compile->compile;protobuf->protobuf")
-
-
-
