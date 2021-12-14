@@ -1,15 +1,19 @@
 import protocbridge.Target
 import sbt.Compile
+import sbt._
+import sbt.Keys._
 import sbtprotoc.ProtocPlugin.autoImport.PB
 import scalapb.GeneratorOption.FlatPackage
 
-lazy val root = (project in file(".")).
-  settings(
+
+lazy val root = (project in file("."))
+  .enablePlugins(BuildInfoPlugin)
+  .settings(
     inThisBuild(List(
       organization := "com.example",
       scalaVersion := "2.13.6"
     )),
-    name := "scalatest-example",
+    name := "protoc-gen-example",
     Compile / PB.targets := Seq(
       scalapb.gen(FlatPackage) -> (Compile / sourceManaged).value / "scalapb",
       PB.gens.java -> (Compile / sourceManaged).value / "java"
