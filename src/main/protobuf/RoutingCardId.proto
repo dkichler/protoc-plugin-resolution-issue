@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-import "validate/validate.proto";
+//import "validate/validate.proto";
 import "scalapb/scalapb.proto";
-import "scalapb/validate.proto";
+//import "scalapb/validate.proto";
 
 package foo;
 
@@ -12,16 +12,17 @@ option (scalapb.options) = {
   single_file: true
   retain_source_code_info: true
   no_default_values_in_constructor: true
-  [scalapb.validate.file] {
-    validate_at_construction: false
-    insert_validator_instance: true
-  }
+//  [scalapb.validate.file] {
+//    validate_at_construction: false
+//    insert_validator_instance: true
+//  }
 };
 
 // For routing cards
 message RoutingCardId {
-  string value = 1  [(validate.rules).string = {
-                      pattern: "^C[CP][0-9]{10}$",
-                      max_bytes: 12,
-                    }];
+  string value = 1;
+//  [(validate.rules).string = {
+//                      pattern: "^C[CP][0-9]{10}$",
+//                      max_bytes: 12,
+//                    }];
 }

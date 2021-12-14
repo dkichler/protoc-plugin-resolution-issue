@@ -18,23 +18,23 @@ lazy val root = (project in file("."))
       scalapb.gen(FlatPackage) -> (Compile / sourceManaged).value / "scalapb",
       PB.gens.java -> (Compile / sourceManaged).value / "java"
     ),
-    Compile / PB.targets ++= Seq(
-      Target(
-        scalapb.validate.gen(FlatPackage),
-        (Compile / sourceManaged).value / "scalapb"
-      ),
-      Target(
-        PB.gens.plugin("validate"),
-        (Compile / sourceManaged).value,
-        Seq("lang=java")
-      )
-    ),
+//    Compile / PB.targets ++= Seq(
+//      Target(
+//        scalapb.validate.gen(FlatPackage),
+//        (Compile / sourceManaged).value / "scalapb"
+//      ),
+//      Target(
+//        PB.gens.plugin("validate"),
+//        (Compile / sourceManaged).value,
+//        Seq("lang=java")
+//      )
+//    ),
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf",
-      "com.thesamet.scalapb" %% "scalapb-validate-core" % scalapb.validate.compiler.BuildInfo.version,
-      "com.thesamet.scalapb" %% "scalapb-validate-core" % scalapb.validate.compiler.BuildInfo.version % "protobuf",
-      "io.envoyproxy.protoc-gen-validate" % "pgv-java-stub" % "0.6.2" % "protobuf,compile",
-      ("io.envoyproxy.protoc-gen-validate" % "protoc-gen-validate" % "0.6.2").asProtocPlugin,
+//      "com.thesamet.scalapb" %% "scalapb-validate-core" % scalapb.validate.compiler.BuildInfo.version,
+//      "com.thesamet.scalapb" %% "scalapb-validate-core" % scalapb.validate.compiler.BuildInfo.version % "protobuf",
+//      "io.envoyproxy.protoc-gen-validate" % "pgv-java-stub" % "0.6.2" % "protobuf,compile",
+//      ("io.envoyproxy.protoc-gen-validate" % "protoc-gen-validate" % "0.6.2").asProtocPlugin,
       "org.scalatest" %% "scalatest" % "3.2.9" % Test
     )
   )
