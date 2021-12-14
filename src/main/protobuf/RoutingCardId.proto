@@ -4,7 +4,9 @@ import "validate/validate.proto";
 import "scalapb/scalapb.proto";
 import "scalapb/validate.proto";
 
-option java_outer_classname = "RoutingCardIdProto";
+package foo;
+
+option java_outer_classname = "RoutingCardIdProtoX";  // conflicts with FlatPackage without the X suffix
 
 option (scalapb.options) = {
   single_file: true
