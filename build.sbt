@@ -21,7 +21,7 @@ lazy val root = (project in file(".")).
       ),
       Target(
         PB.gens.plugin("validate"),
-        (Compile / sourceManaged).value,
+        (Compile / sourceManaged).value / "java",
         Seq("lang=java")
       )
     ),
