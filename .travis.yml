@@ -2,6 +2,11 @@ language: scala
 scala:
   - 2.13.7
 
+branches:
+  only:
+  - resolution-broken
+  - resolution-works
+
 script:
   - sbt ++$TRAVIS_SCALA_VERSION "show anotherMod/protobuf:managedClasspath"
 
