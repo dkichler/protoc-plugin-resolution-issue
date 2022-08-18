@@ -1,17 +1,18 @@
 Simple repo to demonstrate protoc plugin dependency resolution issue with sbt 1.5.x+
 
-Expected behaviour is demonstrated against tag `resolution-works`, using sbt 1.4.9
+The scenario only seems to exists where there is a protobuf scoped `dependsOn` relation to another module, such as the relation between anotherMod -> base modules in build.sbt.
 
-To show expected behaviour:
+To demonstrate the broken resolution:
 
 ```
-$> sbt "show anotherMod/protobuf:managedClasspath"
+$> sbt clean compile
 ```
 
-Observe the dependency
-`io/envoyproxy/protoc-gen-validate/protoc-gen-validate/0.6.1/protoc-gen-validate-0.6.1-osx-x86_64.exe`
-in the resulting report.
+Observe the failure to resolve protoc dependency:
 
-To reproduce the resolution issue, checkout branch `resolution-broken` and run the same command as above.
+```
+[error] lmcoursier.internal.shaded.coursier.error.FetchError$DownloadingArtifacts: Error fetching artifacts:
+[error] https://repo1.maven.org/maven2/io/envoyproxy/protoc-gen-validate/protoc-gen-validate/0.6.1/protoc-gen-validate-0.6.1-osx-x86_64.protoc-plugin: not found: https://repo1.maven.org/maven2/io/envoyproxy/protoc-gen-validate/protoc-gen-validate/0.6.1/protoc-gen-validate-0.6.1-osx-x86_64.protoc-plugin
+```
 
-Observe failure to resolve the same dependency, using an incorrect extension of `.protoc-plugin`
+Expected behaviour can be observed by downgrading sbt version to 1.4.9 and running the same task as above.

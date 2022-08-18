@@ -3,7 +3,7 @@ import sbt.Compile
 import sbtprotoc.ProtocPlugin.autoImport.PB
 import scalapb.GeneratorOption.FlatPackage
 
-lazy val root = (project in file(".")).
+lazy val base = (project in file("base")).
   settings(
     inThisBuild(List(
       organization := "com.example",
@@ -29,11 +29,13 @@ lazy val root = (project in file(".")).
       "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf",
       "com.thesamet.scalapb" %% "scalapb-validate-core" % scalapb.validate.compiler.BuildInfo.version,
       "com.thesamet.scalapb" %% "scalapb-validate-core" % scalapb.validate.compiler.BuildInfo.version % "protobuf",
-      "io.envoyproxy.protoc-gen-validate" % "pgv-java-stub" % "0.6.1" % "protobuf,compile",
-      ("io.envoyproxy.protoc-gen-validate" % "protoc-gen-validate" % "0.6.1").asProtocPlugin,
-      "org.scalatest" %% "scalatest" % "3.2.9" % Test
+      "io.envoyproxy.protoc-gen-validate" % "pgv-java-stub" % "0.6.7" % "protobuf,compile",
+      ("io.envoyproxy.protoc-gen-validate" % "protoc-gen-validate" % "0.6.7").asProtocPlugin,
+      "org.scalatest" %% "scalatest" % "3.2.12" % Test
     )
   )
 
 lazy val anotherMod = (project in file("another-module"))
-  .dependsOn(root % "compile->compile;protobuf->protobuf")
+  .dependsOn(base % "test->test;compile->compile;protobuf->protobuf")
+
+lazy val root = (project in file(".")).aggregate(base, anotherMod)
