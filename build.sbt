@@ -9,22 +9,7 @@ lazy val base = (project in file("base")).
       organization := "com.example",
       scalaVersion := "2.13.6"
     )),
-    name := "scalatest-example",
-    Compile / PB.targets := Seq(
-      scalapb.gen(FlatPackage) -> (Compile / sourceManaged).value / "scalapb",
-      PB.gens.java -> (Compile / sourceManaged).value / "java"
-    ),
-    Compile / PB.targets ++= Seq(
-      Target(
-        scalapb.validate.gen(FlatPackage),
-        (Compile / sourceManaged).value / "scalapb"
-      ),
-      Target(
-        PB.gens.plugin("validate"),
-        (Compile / sourceManaged).value / "java",
-        Seq("lang=java")
-      )
-    ),
+    name := "protoc-gen-test",
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf",
       "com.thesamet.scalapb" %% "scalapb-validate-core" % scalapb.validate.compiler.BuildInfo.version,
@@ -34,8 +19,36 @@ lazy val base = (project in file("base")).
       "org.scalatest" %% "scalatest" % "3.2.12" % Test
     )
   )
+  .settings(commonSettings)
 
 lazy val anotherMod = (project in file("another-module"))
-  .dependsOn(base % "test->test;compile->compile;protobuf->protobuf")
+  .dependsOn(base % "test->test;compile->compile")
+  .settings(commonSettings)
+  .settings(
+    libraryDependencies ++= Seq(
+      "com.thesamet.scalapb" %% "scalapb-validate-core" % scalapb.validate.compiler.BuildInfo.version,
+      "com.thesamet.scalapb" %% "scalapb-validate-core" % scalapb.validate.compiler.BuildInfo.version % "protobuf",
+      "io.envoyproxy.protoc-gen-validate" % "pgv-java-stub" % "0.6.7" % "protobuf,compile",
+      ("io.envoyproxy.protoc-gen-validate" % "protoc-gen-validate" % "0.6.7").asProtocPlugin
+    )
+  )
 
 lazy val root = (project in file(".")).aggregate(base, anotherMod)
+
+val commonSettings = Seq(
+  Compile / PB.targets := Seq(
+    scalapb.gen(FlatPackage) -> (Compile / sourceManaged).value / "scalapb",
+    PB.gens.java -> (Compile / sourceManaged).value / "java"
+  ),
+  Compile / PB.targets ++= Seq(
+    Target(
+      scalapb.validate.gen(FlatPackage),
+      (Compile / sourceManaged).value / "scalapb"
+    ),
+    Target(
+      PB.gens.plugin("validate"),
+      (Compile / sourceManaged).value / "java",
+      Seq("lang=java")
+    )
+  )
+)

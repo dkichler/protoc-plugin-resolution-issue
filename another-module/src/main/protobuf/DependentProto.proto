@@ -20,5 +20,6 @@ option (scalapb.options) = {
 };
 
 message DependentType {
-  RoutingCardId routingCard = 1;
+  foo.RoutingCardId routingCard = 1;
+  int32 anotherField = 2 [(validate.rules).int32.gt = 3];
 }
