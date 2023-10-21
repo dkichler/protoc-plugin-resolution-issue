@@ -12,9 +12,8 @@ lazy val base = (project in file("base")).
     name := "protoc-gen-test",
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf",
-      "com.thesamet.scalapb" %% "scalapb-validate-core" % scalapb.validate.compiler.BuildInfo.version,
-      "com.thesamet.scalapb" %% "scalapb-validate-core" % scalapb.validate.compiler.BuildInfo.version % "protobuf",
-      "build.buf.protoc-gen-validate" % "pgv-java-stub" % "1.0.0" % "protobuf,compile",
+      "com.thesamet.scalapb" %% "scalapb-validate-core" % scalapb.validate.compiler.BuildInfo.version % "compile,protobuf",
+      "build.buf.protoc-gen-validate" % "pgv-java-stub" % "1.0.0" % "compile,protobuf",
       ("build.buf.protoc-gen-validate" % "protoc-gen-validate" % "1.0.0").asProtocPlugin,
       "org.scalatest" %% "scalatest" % "3.2.15" % Test
     )
@@ -22,13 +21,16 @@ lazy val base = (project in file("base")).
   .settings(commonSettings)
 
 lazy val anotherMod = (project in file("another-module"))
-  .dependsOn(base % "test->test;compile->compile")
+  // intent of this dependency would be to run additional generators on the sources defined in `base`
+  // (not a good example of the additional generators in this toy example)
+  .dependsOn(base % "protobuf-src")
   .settings(commonSettings)
   .settings(
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "scalapb-validate-core" % scalapb.validate.compiler.BuildInfo.version,
+      // Commenting out line below allows protocUnpackDependencies to succeed, but compilation will fail.
       "com.thesamet.scalapb" %% "scalapb-validate-core" % scalapb.validate.compiler.BuildInfo.version % "protobuf",
-      "build.buf.protoc-gen-validate" % "pgv-java-stub" % "1.0.0" % "protobuf,compile",
+      "build.buf.protoc-gen-validate" % "pgv-java-stub" % "1.0.0" % "compile,protobuf",
       ("build.buf.protoc-gen-validate" % "protoc-gen-validate" % "1.0.0").asProtocPlugin
     )
   )
