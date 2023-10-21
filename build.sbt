@@ -14,9 +14,9 @@ lazy val base = (project in file("base")).
       "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf",
       "com.thesamet.scalapb" %% "scalapb-validate-core" % scalapb.validate.compiler.BuildInfo.version,
       "com.thesamet.scalapb" %% "scalapb-validate-core" % scalapb.validate.compiler.BuildInfo.version % "protobuf",
-      "io.envoyproxy.protoc-gen-validate" % "pgv-java-stub" % "0.6.7" % "protobuf,compile",
-      ("io.envoyproxy.protoc-gen-validate" % "protoc-gen-validate" % "0.6.7").asProtocPlugin,
-      "org.scalatest" %% "scalatest" % "3.2.12" % Test
+      "build.buf.protoc-gen-validate" % "pgv-java-stub" % "1.0.0" % "protobuf,compile",
+      ("build.buf.protoc-gen-validate" % "protoc-gen-validate" % "1.0.0").asProtocPlugin,
+      "org.scalatest" %% "scalatest" % "3.2.15" % Test
     )
   )
   .settings(commonSettings)
@@ -28,8 +28,8 @@ lazy val anotherMod = (project in file("another-module"))
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "scalapb-validate-core" % scalapb.validate.compiler.BuildInfo.version,
       "com.thesamet.scalapb" %% "scalapb-validate-core" % scalapb.validate.compiler.BuildInfo.version % "protobuf",
-      "io.envoyproxy.protoc-gen-validate" % "pgv-java-stub" % "0.6.7" % "protobuf,compile",
-      ("io.envoyproxy.protoc-gen-validate" % "protoc-gen-validate" % "0.6.7").asProtocPlugin
+      "build.buf.protoc-gen-validate" % "pgv-java-stub" % "1.0.0" % "protobuf,compile",
+      ("build.buf.protoc-gen-validate" % "protoc-gen-validate" % "1.0.0").asProtocPlugin
     )
   )
 
